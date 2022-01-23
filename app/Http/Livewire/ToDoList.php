@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
+use App\Models\ToDoList as ToDoListModel;
 
-class ToDoList extends Component
+class ToDoList extends BaseComponent
 {
     public function render()
     {
-        return view('livewire.to-do-list');
+        $list = ToDoListModel::all();
+        return view('livewire.to-do-list', [
+            'lists' => $list
+        ]);
+
     }
 }

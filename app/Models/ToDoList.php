@@ -17,4 +17,9 @@ class ToDoList extends Model
     protected $casts = [
         'done' => 'boolean'
     ];
+
+    public function getDoneColorAttribute()
+    {
+        return $this->active ? 'text-green-500 bg-green-100' : 'text-red-600 bg-red-100';
+    }
 }
