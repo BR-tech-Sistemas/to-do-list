@@ -11,17 +11,20 @@ class ToDoList extends BaseComponent
 
     public $item;
     public $isEdit = false;
-    public $isConfirmationOpen = false;
     public $search;
 
     protected $rules = [
-        'list.title' => 'required'
+        'item.title' => 'required|string',
+        'item.done' => 'nullable|boolean'
     ];
 
     public function render()
     {
         $search = $this->search;
-        $list = ToDoListModel::where('title', 'LIKE', "%{$search}%")->paginate();
+        $list = ToDoListModel::where('title', 'LIKE', "%{$search}%")
+            ->orderBy('done', 'ASC')
+            ->latest()
+            ->paginate();
         return view('livewire.to-do-list', [
             'lists' => $list
         ]);
@@ -35,10 +38,52 @@ class ToDoList extends BaseComponent
         $this->openModalPopover();
     }
 
+    public function edit(ToDoListModel $item)
+    {
+        $this->resetCreateForm();
+        $this->isEdit = true;
+        $this->item = $item;
+        $this->openModalPopover();
+    }
+
     public function changeStatus(ToDoListModel $item, bool $done)
     {
         $item->update(['done' => $done]);
         $this->sendToastMessage('success', 'Status atualizado com sucesso!');
     }
 
+    public function save()
+    {
+        $this->validate();
+
+        if ($this->isEdit) {
+            $this->item->save();
+        } else {
+            $this->item['user_id'] = auth()->user()->id;
+            ToDoListModel::create($this->item);
+        }
+
+        $this->resetCreateForm();
+        $this->sendToastMessage('success', 'Item salvo com sucesso');
+        $this->closeModalPopover();
+    }
+
+    public function delete(ToDoListModel $item)
+    {
+        $this->item = $item;
+        $this->openConfirmationModalPopover();
+    }
+
+    public function destroy(ToDoListModel $item)
+    {
+        if ($item->user_id !== auth()->user()->id){
+            $this->sendToastMessage('error', 'Você não tem autorização para excluir esse item!');
+            $this->closeConfirmationModalPopover();
+            return;
+        }
+
+        $item->delete();
+        $this->closeConfirmationModalPopover();
+        $this->sendToastMessage('success', 'Item removido com sucesso!');
+    }
 }

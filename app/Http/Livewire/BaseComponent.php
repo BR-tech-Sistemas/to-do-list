@@ -7,6 +7,7 @@ use Livewire\Component;
 class BaseComponent extends Component
 {
     public $isModalOpen = false;
+    public $isConfirmationOpen = false;
 
     public function openModalPopover()
     {
@@ -16,6 +17,16 @@ class BaseComponent extends Component
     public function closeModalPopover()
     {
         $this->isModalOpen = false;
+    }
+
+    public function closeConfirmationModalPopover()
+    {
+        $this->isConfirmationOpen = false;
+    }
+
+    public function openConfirmationModalPopover()
+    {
+        $this->isConfirmationOpen = true;
     }
 
     public function resetCreateForm(array $fields = [])

@@ -3,12 +3,21 @@
 namespace App\Models;
 
 use App\Traits\Snowflake;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ToDoList extends Model
 {
     use HasFactory, Snowflake;
+
+    protected static function booted()
+    {
+        static::addGlobalScope('userList', function (Builder $builder){
+            $builder->where('user_id', auth()->user()->id);
+        });
+    }
+
 
     protected $fillable = [
         'title', 'done', 'user_id'
