@@ -20,6 +20,6 @@ class ToDoList extends Model
 
     public function getDoneColorAttribute()
     {
-        return $this->active ? 'text-green-500 bg-green-100' : 'text-red-600 bg-red-100';
+        return $this->done ? 'text-green-500 bg-green-100' : 'text-red-600 bg-red-100';
     }
 }
