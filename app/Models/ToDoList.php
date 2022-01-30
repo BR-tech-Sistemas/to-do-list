@@ -20,7 +20,7 @@ class ToDoList extends Model
 
 
     protected $fillable = [
-        'title', 'done', 'user_id'
+        'title', 'done', 'user_id', 'archived'
     ];
 
     protected $casts = [
@@ -29,6 +29,6 @@ class ToDoList extends Model
 
     public function getDoneColorAttribute()
     {
-        return $this->done ? 'text-green-500 bg-green-100' : 'text-red-600 bg-red-100';
+        return $this->done ? 'text-gray-500 bg-green-100' : 'text-red-600 bg-red-100';
     }
 }

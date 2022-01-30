@@ -38,11 +38,17 @@
                         <th class="">Ações</th>
                     </tr>
                     </thead>
-                    <tbody class="text-gray-500 text-sm">
+                    <tbody class="text-gray-800 text-sm">
                     @forelse($lists as $item)
-                        <tr wire:loading.class.delay="opacity-50">
+                        <tr wire:loading.class.delay="opacity-50" @if($item->done) class="text-gray-300" @endif>
                             <td class="py-3 border border-b-2 border-gray-300">
-                                <p class="font-semibold text-center">{{ $item->title }}</p>
+                                <p class="font-semibold text-center">
+                                    @if($item->done)
+                                        <s>{{ $item->title }}</s>
+                                    @else
+                                        {{ $item->title }}
+                                    @endif
+                                </p>
                             </td>
                             <td class="text-center border border-b-2 border-gray-300">
                                 <span class="px-1 text-sm {{ $item->done_color }} rounded-md">
@@ -50,13 +56,21 @@
                                 </span>
                             </td>
                             <td class="text-center border border-b-2 border-gray-300 space-y-1 py-3">
-                                <div>
-                                    @if($item->done)
+                                @if($item->done)
+                                    <div>
                                         <button wire:click="changeStatus('{{$item->id}}', false)"
                                                 class="bg-yellow-100 hover:bg-yellow-600 text-gray-600 px-1 rounded-md">
                                             <span>Não Feito</span>
                                         </button>
-                                    @else
+                                    </div>
+                                    <div>
+                                        <button wire:click="archive('{{$item->id}}')"
+                                                class="bg-indigo-50 hover:bg-orange-700 text-gray-600 px-1 rounded-md">
+                                            <span>Arquivar</span>
+                                        </button>
+                                    </div>
+                                @else
+                                    <div>
                                         <button wire:click="changeStatus('{{$item->id}}', true)"
                                                 class="bg-green-100 hover:bg-green-600 text-gray-600 px-1 rounded-md">
                                             <span>Feito</span>
@@ -64,20 +78,20 @@
                                                 <path d="M10.219,1.688c-4.471,0-8.094,3.623-8.094,8.094s3.623,8.094,8.094,8.094s8.094-3.623,8.094-8.094S14.689,1.688,10.219,1.688 M10.219,17.022c-3.994,0-7.242-3.247-7.242-7.241c0-3.994,3.248-7.242,7.242-7.242c3.994,0,7.241,3.248,7.241,7.242C17.46,13.775,14.213,17.022,10.219,17.022 M15.099,7.03c-0.167-0.167-0.438-0.167-0.604,0.002L9.062,12.48l-2.269-2.277c-0.166-0.167-0.437-0.167-0.603,0c-0.166,0.166-0.168,0.437-0.002,0.603l2.573,2.578c0.079,0.08,0.188,0.125,0.3,0.125s0.222-0.045,0.303-0.125l5.736-5.751C15.268,7.466,15.265,7.196,15.099,7.03"></path>
                                             </svg>--}}
                                         </button>
-                                    @endif
-                                </div>
-                                <div>
-                                    <button wire:click="edit('{{$item->id}}')"
-                                            class="bg-blue-100 hover:bg-indigo-600 text-gray-600 px-1 rounded-md">
-                                        <span>Editar</span>
-                                    </button>
-                                </div>
-                                <div>
-                                    <button wire:click="delete('{{$item->id}}')"
-                                            class="bg-red-100 hover:bg-red-700 text-gray-600 px-1 rounded-md">
-                                        <span>Deletar</span>
-                                    </button>
-                                </div>
+                                    </div>
+                                    <div>
+                                        <button wire:click="edit('{{$item->id}}')"
+                                                class="bg-blue-100 hover:bg-indigo-600 text-gray-600 px-1 rounded-md">
+                                            <span>Editar</span>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button wire:click="delete('{{$item->id}}')"
+                                                class="bg-red-100 hover:bg-red-700 text-gray-600 px-1 rounded-md">
+                                            <span>Deletar</span>
+                                        </button>
+                                    </div>
+                                @endif
                             </td>
                         </tr>
                     @empty

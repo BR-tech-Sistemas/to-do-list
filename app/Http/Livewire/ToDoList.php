@@ -22,6 +22,7 @@ class ToDoList extends BaseComponent
     {
         $search = $this->search;
         $list = ToDoListModel::where('title', 'LIKE', "%{$search}%")
+            ->where('archived', '=', false)
             ->orderBy('done', 'ASC')
             ->latest()
             ->paginate();
@@ -72,6 +73,18 @@ class ToDoList extends BaseComponent
     {
         $this->item = $item;
         $this->openConfirmationModalPopover();
+    }
+
+    public function archive(ToDoListModel $item)
+    {
+        if ($item->user_id !== auth()->user()->id){
+            $this->sendToastMessage('error', 'Você não tem autorização para arquivar esse item!');
+            $this->closeConfirmationModalPopover();
+            return;
+        }
+
+        $item->update(['archived' => true]);
+        $this->sendToastMessage('success', 'Item arquivado com sucesso!');
     }
 
     public function destroy(ToDoListModel $item)
