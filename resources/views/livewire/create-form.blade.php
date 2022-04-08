@@ -14,6 +14,7 @@
                     type="text"
                     name="title"
                     placeholder="{{__('Title')}}"
+                    wire:keydown.enter="save()"
                     wire:model="item.title"
                     class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md
                         focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
@@ -26,6 +27,7 @@
                         type="checkbox"
                         name="{{__('Done')}}?"
                         class="w-5 h-5 border border-gray-300 rounded-sm outline-none cursor-pointer"
+                        wire:keydown.enter="save()"
                         wire:model="item.done"
                     />
                     <label class="ml-2 text-sm">{{__('Done')}}?</label>
