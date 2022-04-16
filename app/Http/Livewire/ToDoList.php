@@ -92,7 +92,7 @@ class ToDoList extends BaseComponent
         }
 
         $item->update(['archived' => $archive]);
-        $this->sendToastMessage('success', 'Item arquivado com sucesso!');
+        $this->sendToastMessage('success', $archive ? 'Item arquivado com sucesso!' : 'Item desarquivado com sucesso!');
     }
 
     public function destroy(ToDoListModel $item)
@@ -106,5 +106,10 @@ class ToDoList extends BaseComponent
         $item->delete();
         $this->closeConfirmationModalPopover();
         $this->sendToastMessage('success', 'Item removido com sucesso!');
+    }
+
+    public function isOffline()
+    {
+        $this->sendToastMessage('warning', 'Você está Offline');
     }
 }

@@ -15,7 +15,7 @@
                     name="title"
                     placeholder="{{__('Title')}}"
                     wire:keydown.enter="save()"
-                    wire:model="item.title"
+                    wire:model.debounce.500ms="item.title"
                     class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md
                         focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                 />

@@ -16,8 +16,6 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
     @livewireStyles
 </head>
 <body class="font-sans antialiased">
@@ -36,15 +34,32 @@
         {{ $slot }}
     </main>
 </div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}" defer></script>
 @livewireScripts
 <script>
-    window.addEventListener('alert', event => {
-        toastr[event.detail.type](event.detail.message,
-            event.detail.title ?? ''), toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-        }
-    });
+    document.addEventListener('livewire:load', function () {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            showCloseButton: true,
+            timer: 5000,
+            timerProgressBar:true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
+        window.addEventListener('alert',({detail:{type,message}})=>{
+            Toast.fire({
+                icon:type,
+                title:message
+            })
+        })
+
+    })
 </script>
 </body>
 </html>
