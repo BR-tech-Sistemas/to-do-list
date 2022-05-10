@@ -40,14 +40,13 @@
             </div>
         </div>
     </div>
-    
+
     <div class="py-4">
         <div class="w-full rounded-lg shadow-lg">
             <div class="flex-col space-y-6 pb-4">
                 <table class="w-full">
                     <thead>
                     <tr class="tracking-wide text-gray-700 bg-gray-100 uppercase">
-                        <th class="">ID</th>
                         <th class="py-3">Título</th>
                         <th class="">Status</th>
                         <th class="">Ações</th>
@@ -56,11 +55,6 @@
                     <tbody class="text-gray-800 text-sm">
                     @forelse($lists as $item)
                         <tr wire:loading.class.delay="opacity-50" @if($item->done) class="text-gray-300" @endif>
-                            <td class="border border-b-2 border-gray-300">
-                                <p class="font-semibold text-center">
-                                    {{ $item->id }}
-                                </p>
-                            </td>
                             <td class="py-3 border border-b-2 border-gray-300">
                                 <p class="font-semibold text-center">
                                     @if($item->done)
